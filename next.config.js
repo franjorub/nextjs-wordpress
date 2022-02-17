@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
+
+const { withPlaiceholder } = require('@plaiceholder/next')
+
+module.exports = withPlaiceholder({
   reactStrictMode: true,
   images: {
-    domains: ['wordpress-headless.000webhostapp.com']
-  }
-}
+    domains: ['wordpress-headless.000webhostapp.com'],
+  },
+})

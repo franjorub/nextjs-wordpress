@@ -1,8 +1,10 @@
 import HTMLReactParser from 'html-react-parser'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import { FC } from 'react'
+import { getPlaiceholder } from 'plaiceholder'
 import {
   getAllPostsPaths,
   getAuthor,
@@ -19,13 +21,13 @@ export type PostProps = {
   date: string
 }
 
-export default function Post({
+const Post: FC<InferGetStaticPropsType<typeof getStaticPaths>> = ({
   title,
   featuredImg,
   author,
   content,
   date,
-}: PostProps) {
+}) => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">
       <Head>
@@ -37,7 +39,7 @@ export default function Post({
           {title}
         </h1>
         <div className="relative mb-5 h-80 w-96">
-          {featuredImg && <Image src={featuredImg} layout="fill" />}
+          <Image {...featuredImg} layout="fill" placeholder="blur" />
         </div>
         <p className="mt-5 text-sm">Written by {author}</p>
         <p className="mb-5 text-sm font-semibold">
@@ -46,13 +48,15 @@ export default function Post({
         <div className={styles.post}>{HTMLReactParser(content)}</div>
       </main>
       <footer>
-          <Link href='/'>
-            <a className='text-blue-500 text-lg'>Back home</a>
-          </Link>
+        <Link href="/">
+          <a className="text-lg text-blue-500">Back home</a>
+        </Link>
       </footer>
     </div>
   )
 }
+
+export default Post
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = await getAllPostsPaths()
@@ -66,11 +70,16 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const post = await getPostById(params?.id as string)
   const featuredImg = await getFeaturedImage(post?.featured_media as number)
   const author = await getAuthor(post?.author as number)
+  const { base64, img } = await getPlaiceholder(featuredImg)
+
   return {
     props: {
       title: post?.title.rendered,
       content: post?.content.rendered,
-      featuredImg,
+      featuredImg: {
+        ...img,
+        blurDataURL: base64,
+      },
       author,
       date: post?.date,
     },

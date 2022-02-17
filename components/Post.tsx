@@ -26,7 +26,7 @@ export const Post: FC<PostProps> = ({ post }) => {
   return (
     <div className="grid place-items-center rounded-lg border-2 border-gray-50 p-4 hover:shadow-sm bg-gradient-to-br from-gray-100">
       <div className="relative mb-5 h-72 w-80 lg:h-80 lg:w-96">
-        {featuredImg && <Image src={featuredImg} layout="fill" />}
+        {featuredImg && <Image src={featuredImg} layout="fill" sizes="50vw" />}
       </div>
 
       <Link href={`/posts/${post.id}`}>
