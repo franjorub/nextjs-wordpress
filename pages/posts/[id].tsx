@@ -39,7 +39,7 @@ const Post: FC<InferGetStaticPropsType<typeof getStaticPaths>> = ({
           {title}
         </h1>
         <div className="relative mb-5 h-80 w-96">
-          <Image {...featuredImg} layout="fill" placeholder="blur" />
+          <Image {...featuredImg} layout="fill" placeholder="blur" sizes="50vw" />
         </div>
         <p className="mt-5 text-sm">Written by {author}</p>
         <p className="mb-5 text-sm font-semibold">
