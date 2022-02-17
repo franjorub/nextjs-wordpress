@@ -24,19 +24,23 @@ export const Post: FC<PostProps> = ({ post }) => {
   }, [post.author, post.featured_media])
 
   return (
-    <div className='border-2 border-gray-300 rounded-lg p-4 grid place-items-center'>
-        <div className="mb-5 w-96 h-80 relative" >
-           {featuredImg && <Image  src={featuredImg} layout="fill" />} 
-        </div>
+    <div className="grid place-items-center rounded-lg border-2 border-gray-50 p-4 hover:shadow-sm bg-gradient-to-br from-gray-100">
+      <div className="relative mb-5 h-72 w-80 lg:h-80 lg:w-96">
+        {featuredImg && <Image src={featuredImg} layout="fill" />}
+      </div>
 
       <Link href={`/posts/${post.id}`}>
-        <a className="text-4xl font-bold">{post.title.rendered}</a>
+        <a className="text-4xl font-bold hover:text-gray-500">
+          {post.title.rendered}
+        </a>
       </Link>
       <h4>{new Date(post.date).toDateString()}</h4>
       <div className="relative mt-2">
         <div className="mb-2 max-w-lg">{parse(post.excerpt.rendered)}</div>
         <Link href={`/posts/${post.id}`}>
-          <a className="bottom-0 mt-3 text-blue-800">Continue reading</a>
+          <a className="bottom-0 mt-3 text-blue-800 hover:text-blue-400">
+            Continue reading
+          </a>
         </Link>
       </div>
     </div>
